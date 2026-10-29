@@ -45,7 +45,7 @@ A Retrieval-Augmented Generation (RAG) chatbot that allows users to upload docum
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/AmiteshBatham15/RAG-Document-QA-Chatbot.git
 cd RAG-Document-QA-Chatbot
 ```
 
