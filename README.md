@@ -1,123 +1,83 @@
+# RAG Document Q&A Chatbot
 
-# 📚 RAG Document Q&A Chatbot
+A Retrieval-Augmented Generation (RAG) chatbot that allows users to upload documents and ask questions about their content using semantic search and a large language model.
 
-A **Retrieval-Augmented Generation (RAG)** application that allows users to upload PDF documents and ask questions about their contents. The application retrieves relevant document passages and uses Google Gemini to generate context-aware answers with source references.
+## Features
 
-## 🚀 Features
+- 📄 Supports PDF (`.pdf`), Word (`.docx`), and text (`.txt`) documents.
+- 🔍 Retrieves relevant document chunks using semantic similarity search.
+- 🤖 Generates contextual answers using Google Gemini.
+- 🧠 Creates embeddings using Sentence Transformers.
+- 🗄️ Stores document embeddings in ChromaDB.
+- 💬 Provides an interactive chat interface using Gradio.
+- 📚 Displays source references to help users trace answers to uploaded documents.
 
-- **Multi-PDF Upload:** Upload PDF documents through an interactive Gradio interface.
-- **Document Processing:** Extract text from PDFs and split it into smaller, overlapping chunks.
-- **Semantic Embeddings:** Generate vector embeddings using Hugging Face Sentence Transformers.
-- **Vector Storage:** Store and search document embeddings using ChromaDB.
-- **Context-Aware Q&A:** Retrieve relevant document passages and generate answers using Google Gemini.
-- **Source References:** Display document source information to help users trace answers to the original content.
-- **Page-Specific Retrieval:** Retrieve content associated with requested PDF pages.
-- **Interactive Interface:** Ask questions and view responses through a Gradio web interface.
+## Tech Stack
 
-## 🏗️ Architecture
+- **Python**: Core application logic
+- **Gradio**: User interface
+- **LangChain**: Document loading, text splitting, and RAG workflow
+- **ChromaDB**: Vector storage and similarity search
+- **Hugging Face Sentence Transformers**: Text embeddings
+- **Google Gemini API**: Answer generation
 
-The application follows a typical Retrieval-Augmented Generation workflow.
+## Supported File Formats
 
-```mermaid
-flowchart TD
-    A["Upload PDF Documents"] --> B["Extract Text"]
-    B --> C["Split Text into Chunks"]
-    C --> D["Generate Embeddings"]
-    D --> E[("ChromaDB Vector Store")]
+| Format         | Extension | Loader         |
+| -------------- | --------- | -------------- |
+| PDF            | `.pdf`  | PyPDFLoader    |
+| Microsoft Word | `.docx` | Docx2txtLoader |
+| Plain text     | `.txt`  | TextLoader     |
 
-    F["User Question"] --> G["Generate Query Embedding"]
-    G --> H["Retrieve Relevant Chunks"]
-    E --> H
-    H --> I["Build Context"]
-    I --> J["Google Gemini LLM"]
-    J --> K["Answer with Source References"]
+## Project Workflow
 
-    style A fill:#dbeafe,stroke:#2563eb,color:#111827
-    style E fill:#dcfce7,stroke:#16a34a,color:#111827
-    style J fill:#fef3c7,stroke:#d97706,color:#111827
-    style K fill:#ede9fe,stroke:#7c3aed,color:#111827
-```
+1. Upload one or more supported documents.
+2. Extract the document text.
+3. Split the text into smaller chunks.
+4. Generate embeddings for the chunks.
+5. Store embeddings in ChromaDB.
+6. Retrieve relevant chunks when a question is submitted.
+7. Generate an answer using Google Gemini.
+8. Display the answer and available source references.
 
-### How It Works
-
-1. **Document ingestion:** The user uploads PDF documents through the Gradio interface.
-2. **Text extraction:** LangChain's PDF loader extracts text from the uploaded documents.
-3. **Chunking:** The extracted text is divided into smaller, overlapping chunks to support retrieval.
-4. **Embedding generation:** Hugging Face Sentence Transformers converts the chunks into vector embeddings.
-5. **Vector storage:** ChromaDB stores the embeddings and associated document metadata.
-6. **Retrieval:** The application searches for document chunks relevant to the user's question.
-7. **Answer generation:** The retrieved context is passed to Google Gemini, which generates a response.
-8. **Source references:** The application presents source information alongside the answer.
-
-## 🛠️ Tech Stack
-
-| Technology                         | Purpose                                                   |
-| ---------------------------------- | --------------------------------------------------------- |
-| Python                             | Application logic                                         |
-| Gradio                             | Interactive web interface                                 |
-| LangChain                          | Document loading, chunking, and LLM integration           |
-| ChromaDB                           | Vector storage and similarity search                      |
-| Hugging Face Sentence Transformers | Local embedding generation                                |
-| Google Gemini API                  | Context-aware answer generation                           |
-| PyPDF                              | PDF text extraction through the document-loading pipeline |
-
-## 📂 Project Structure
-
-```text
-RAG-Document-QA-Chatbot/
-├── app.py              # Gradio application and user interface
-├── rag_pipeline.py     # Document processing, retrieval, and generation
-├── requirements.txt    # Python dependencies
-├── README.md           # Project documentation
-└── .gitignore          # Files excluded from version control
-```
-
-## ⚙️ Setup and Installation
-
-### Prerequisites
-
-- Python installed on your system
-- Git
-- A Google Gemini API key
+## Installation and Setup
 
 ### 1. Clone the repository
 
-Replace the placeholder with your actual GitHub repository URL.
-
 ```bash
-git clone https://github.com/AmiteshBatham15/RAG-Document-QA-Chatbot.git
+git clone YOUR_GITHUB_REPOSITORY_URL
 cd RAG-Document-QA-Chatbot
 ```
 
-### 2. Create a virtual environment
+Replace `YOUR_GITHUB_REPOSITORY_URL` with your actual repository URL.
+
+### 2. Create and activate a virtual environment
 
 ```bash
 python -m venv .venv
 ```
 
-Activate it on Windows using PowerShell:
+Windows:
 
-```powershell
-.venv\Scripts\Activate.ps1
+```bash
+.venv\Scripts\activate
 ```
 
 ### 3. Install dependencies
 
 ```bash
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ### 4. Configure environment variables
 
-Create a `.env` file in the project root directory:
+Create a `.env` file in the project root:
 
 ```env
-GOOGLE_API_KEY=your_api_key_here
+GOOGLE_API_KEY=your_google_api_key
 ```
 
-Replace the placeholder with your own API key.
-
-**Security:** Never commit your actual API key to GitHub. Keep `.env` excluded through `.gitignore`.
+Replace the placeholder with your own API key. Never commit `.env` or expose your API key publicly.
 
 ### 5. Run the application
 
@@ -125,30 +85,18 @@ Replace the placeholder with your own API key.
 python app.py
 ```
 
-Open the local URL displayed in the terminal to access the chatbot.
+Open the local Gradio URL displayed in the terminal.
 
-## 🔐 Security and Best Practices
+## Future Improvements
 
-- Keep API keys and other secrets out of version control.
-- Do not commit virtual environments, generated vector databases, or Python cache files.
-- Avoid uploading confidential documents to a public or externally hosted application.
-- Ensure you have permission to process and share uploaded documents.
-- Configure API credentials securely when deploying the application.
+- Document-wide summarization
+- More precise page-level citations
+- Improved retrieval across multiple documents
+- Persistent vector storage
+- Deployment to a cloud platform
 
-## 🔮 Future Improvements
+## Security
 
-Potential enhancements include:
-
-- Conversation history and chat reset functionality
-- Improved retrieval using configurable top-k results and relevance filtering
-- Support for additional document formats
-- Automated tests for document processing and retrieval
-- Evaluation of retrieval quality and answer accuracy
-- Deployment through Hugging Face Spaces
-- Improved source citations with document filenames and page numbers
-
-## 👨‍💻 Project Goal
-
-This project demonstrates a practical implementation of a RAG pipeline that combines semantic search, vector databases, document processing, and large language models to answer questions grounded in uploaded documents.
-
-It explores how retrieval-based context can make document Q&A more useful than relying on an LLM's general knowledge alone.
+- Keep API keys in environment variables.
+- Do not commit `.env`, virtual environments, or private documents.
+- Review `.gitignore` before pushing changes to GitHub.
